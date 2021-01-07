@@ -48,6 +48,7 @@ router.post("/categories/delete", (req, res) => {
     };
 });
 
+
 router.get("/admin/categories/edit/:id", (req, res) =>{
     let id = req.params.id;
 
