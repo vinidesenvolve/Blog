@@ -22,10 +22,11 @@
                         <th><%= cat.title%></th>
                         <th><%= cat.slug%></th>
                         <th>
-                            <button class="btn-warning">Editar</button>
+                            <a href="/admin/categories/edit/<%= cat.id%>" class="btn btn-warning">Editar</a>
+                            
                             <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
                                 <input  type="hidden" name="id" value="<%= cat.id %>">
-                                <button class="btn-danger">Excluir</button>
+                                <button class="btn btn-danger">Excluir</button>
                             </form>
                         </th>
                     </tr>
@@ -43,4 +44,12 @@
         if(decision)
             form.submit();
     };
+
+    function confirmEdit(event, form){
+        event.preventDefault();
+        let decision = confirm("Deseja editar essa categoria?")
+        
+        if(decision)
+            form.submit();
+        };
 </script>

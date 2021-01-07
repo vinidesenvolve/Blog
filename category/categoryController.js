@@ -19,7 +19,7 @@ router.post("/categories/save", (req, res) =>{
             title: title,
             slug: sluger(title)
         }).then(() => {
-            res.redirect("/");
+            res.redirect("/admin/categories");
         });
     }else{
         res.render("/admin/categories/new");
@@ -46,6 +46,33 @@ router.post("/categories/delete", (req, res) => {
     }else{
         res.redirect("/admin/categories");
     };
+});
+
+router.get("/admin/categories/edit/:id", (req, res) =>{
+    let id = req.params.id;
+
+    Category.findByPk(id).then(category =>{
+        if(category != undefined){
+            res.render("../views/admin/categories/edit", {category: category});
+        }else{
+            res.redirect("/admin/categories");
+        };
+    }).catch(error => {
+            res.redirect("/admin/categories");
+    });
+});
+
+router.post("/admin/update", (req, res) =>{
+    let id = req.body.id;
+    let title = req.body.title;
+
+    Category.update({
+        title: title,
+        slug: sluger(title)
+    },{where: {id:id}}
+    ).then(() => {
+        res.redirect("/admin/categories")
+    });
 });
 
 module.exports = router;
