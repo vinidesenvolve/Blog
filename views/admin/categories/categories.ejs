@@ -1,38 +1,45 @@
 <%- include ('../../partials/header.ejs')%>
 <body>
-    <%- include ('../../partials/navbar.ejs')%>
-    <div class="container">
-        <hr>
-            <h2>Categorias</h2>
-            <a href="/admin/categories/new">Adicionar nova categoria</a>
-        <hr>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Título</th>
-                    <th>Slug</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%categories.forEach(cat => {%>
-                    <tr>
-                        <th><%= cat.id%></th>
-                        <th><%= cat.title%></th>
-                        <th><%= cat.slug%></th>
-                        <th>
-                            <a href="/admin/categories/edit/<%= cat.id%>" class="btn btn-warning">Editar</a>
-                            
-                            <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
-                                <input  type="hidden" name="id" value="<%= cat.id %>">
-                                <button class="btn btn-danger">Excluir</button>
-                            </form>
-                        </th>
-                    </tr>
-                <%})%>
-            </tbody>
-        </table>
+    <%- include ('../../partials/navbar.ejs')%>    
+    <div class="container">    
+        <div class="card">
+            <div class="card-header">
+                <h2>Categorias</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/categories/save">                         
+                    <input type="text" name="title" placeholder="Inserir nova categoria">
+                    <button class="btn btn-success">Ok</button>
+                </form>
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Título</th>
+                            <th>Slug</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%categories.forEach(cat => {%>
+                            <tr>
+                                <th><%= cat.id%></th>
+                                <th><%= cat.title%></th>
+                                <th><%= cat.slug%></th>
+                                <th>
+                                    <a href="/admin/categories/edit/<%= cat.id%>" class="btn btn-warning">Editar</a>
+                                    <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
+                                        <input  type="hidden" name="id" value="<%= cat.id %>">
+                                        <button class="btn btn-danger">Excluir</button>
+                                    </form>
+                                </th>
+                            </tr>
+                        <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 <%- include ('../../partials/footer.ejs')%>
@@ -44,12 +51,4 @@
         if(decision)
             form.submit();
     };
-
-    function confirmEdit(event, form){
-        event.preventDefault();
-        let decision = confirm("Deseja editar essa categoria?")
-        
-        if(decision)
-            form.submit();
-        };
 </script>
