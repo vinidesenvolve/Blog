@@ -3,10 +3,6 @@ const router = express.Router();
 const Category = require("./Category");
 const sluger = require("slugify");
 
-router.get("/admin/categories/new", (req, res) => {
-    res.render("../views/admin/categories/new");
-});
-
 router.post("/categories/save", (req, res) =>{
     let title = req.body.title;
 
@@ -43,7 +39,6 @@ router.post("/categories/delete", (req, res) => {
         res.redirect("/admin/categories");
     };
 });
-
 
 router.get("/admin/categories/edit/:id", (req, res) =>{
     let id = req.params.id;
