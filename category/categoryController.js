@@ -61,8 +61,9 @@ router.post("/admin/update", (req, res) =>{
     Category.update({
         title: title,
         slug: sluger(title)
-    },{where: {id:id}}
-    ).then(() => {
+    },{
+        where: {id: id}
+    }).then(() => {
         res.redirect("/admin/categories")
     });
 });

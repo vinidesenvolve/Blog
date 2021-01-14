@@ -74,6 +74,22 @@ router.get("/admin/articles/edit/:id", (req, res) => {
     });
 });
 
-router.post("/articles/update", (req, res) => {});
+router.post("/articles/update", (req, res) => {
+    let id = req.body.id;
+    let title = req.body.title;
+    let body = req.body.body;
+    let category = req.body.categories;
+
+    Article.update({
+        title: title,
+        slug: sluger(title),
+        body: body,
+        categoryId: category
+    },{
+        where: {id: id}
+    }).then(() => {
+        res.redirect("/admin/articles");
+    });
+});
 
 module.exports = router;
