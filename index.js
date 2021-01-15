@@ -28,7 +28,12 @@ connection
 
 //Rota principal
 app.get("/", (req, res) => {
-    res.render('index');
+    
+    Article.findAll({
+      order: [['id','DESC']]  
+    }).then(articlesDB =>{
+        res.render('index', {articles: articlesDB});
+    });
 });
 
 //Rota categoria
@@ -36,6 +41,27 @@ app.use("/", categoryController);
 
 //Rota artigo
 app.use("/", articleController);
+
+//Rota carregar artigo pela slug
+app.get("/:slug", (req, res) =>{
+    let slug = req.params.slug;
+
+    Article.findOne({
+        where: {
+            slug: slug
+        }
+    }).then(articleDB => {
+        if(articleDB != undefined){
+        
+            res.render("article", {article: articleDB});
+        
+        }else{
+            res.redirect("/");
+        }
+    }).catch(error =>{
+        res.redirect("/");
+    });
+});
  
 //Abrindo o servidor
 app.listen(8080, () =>{

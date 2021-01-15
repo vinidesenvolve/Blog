@@ -1,6 +1,22 @@
 <%- include ('partials/header.ejs') %>
 <body>
     <%- include ('partials/navbar.ejs') %>
-    <h1>Welcome to the jungle</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card-header" style="text-align: center;">
+                <hr>
+                <h1>Blog</h1>
+                <hr>
+            </div>
+            <div class="card-body">
+                <% articles.forEach(article => { %>
+                    <h3>
+                        <a href="/<%= article.slug %>" style="color: black;"><%= article.title %></a>
+                    </h3>
+                    <hr>
+                <%});%>
+            </div>
+        </div>
+    </div>
 </body>
 <%- include ('partials/footer.ejs') %>
