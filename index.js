@@ -30,7 +30,7 @@ connection
 app.get("/", (req, res) => {
     
     Article.findAll({
-      order: [['id','DESC']]  
+        order: [['id','DESC']]  
     }).then(articlesDB =>{
         res.render('index', {articles: articlesDB});
     });
@@ -60,6 +60,38 @@ app.get("/:slug", (req, res) =>{
         }
     }).catch(error =>{
         res.redirect("/");
+    });
+});
+
+app.get("/article/page/:num", (req, res) =>{
+    let page = req.params.num;
+    let offset = 0;
+
+    if(!isNaN(page) || page > 1){
+        offset = page * 3;
+    }
+
+    Article.findAndCountAll({
+        limit: 3,
+        offset: offset         
+    }).then(articles => {
+
+        let next;
+
+        if(offset + 3 >= articles.count){
+            next = false;
+        }else{
+            next = true;
+        };
+
+        var result ={
+            next: next,
+            articles: articles
+        };
+
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page", {result: result, categories: categories});
+        }); 
     });
 });
  

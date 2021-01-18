@@ -10,9 +10,10 @@
             </div>
             <div class="card-body">
                 <% articles.forEach(article => { %>
-                    <h3>
-                        <a href="/<%= article.slug %>" style="color: black;"><%= article.title %></a>
-                    </h3>
+                    <h3><%= article.title %></h3>
+                    <h6>
+                        <a href="/<%= article.slug %>"> Acessar </a>
+                    </h6>
                     <hr>
                 <%});%>
             </div>
