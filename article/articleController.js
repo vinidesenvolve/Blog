@@ -92,4 +92,55 @@ router.post("/articles/update", (req, res) => {
     });
 });
 
+router.get("/:slug", (req, res) =>{
+    let slug = req.params.slug;
+
+    Article.findOne({
+        where: {
+            slug: slug
+        }
+    }).then(articleDB => {
+        if(articleDB != undefined){
+            res.render("article", {article: articleDB});
+        }else{
+            res.redirect("/");
+        }
+    }).catch(error =>{
+        res.redirect("/");
+    });
+});
+
+router.get("/article/page/:num", (req, res) =>{
+    let page = req.params.num;
+    let offset = parseInt(page * 3);
+    
+    if(page == 0 || isNaN(page)){
+        res.redirect("/");
+    }
+    
+    Article.findAndCountAll({
+        limit: 3,
+        offset: offset,
+        order: [['id','DESC']]
+    }).then(articles => {
+        let next;
+
+        if(offset + 3 >= articles.count){
+            next = false;
+        }else{
+            next = true;
+        };
+
+        var result ={
+            page: parseInt(page),
+            next: next,
+            articles: articles
+        };
+
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page", {result: result, categories: categories});
+        }); 
+    });
+});
+
 module.exports = router;
