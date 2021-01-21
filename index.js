@@ -1,11 +1,16 @@
 const express = require("express"); //Carregando modulo express
 const bodyParser = require("body-parser"); //Carregando modulo body parser
 const connection = require("./database/database"); //Carregando objeto conexão
+
 const app = express(); //Instanciando express
-const articleController = require("./article/articleController"); //Importando controller 
-const categoryController = require("./category/categoryController"); //Importando controller 
+
+//Importando controllers 
+const articleController = require("./article/articleController");
+const categoryController = require("./category/categoryController");
+const userController = require("./user/userController");
+
+//Estanciando model
 const Article = require("./article/Article");
-const Category = require("./category/Category");
 
 //Definindo a View Engine
 app.set('view engine','ejs');
@@ -42,6 +47,9 @@ app.use("/", categoryController);
 
 //Rota artigo
 app.use("/", articleController);
+
+//Rota user
+app.use("/", userController);
 
 //Abrindo o servidor
 app.listen(8080, () =>{

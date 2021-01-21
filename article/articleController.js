@@ -5,17 +5,18 @@ const Article = require("../article/Article");
 const sluger = require("slugify");
 
 router.get("/admin/articles", (req, res) =>{
+    
     Article.findAll({
         include: [{model: Category}],
         order: [['id','DESC']]
     }).then((articlesDB) =>{
-        res.render("../views/admin/articles/articles", {articles: articlesDB});
+        res.render("admin/articles/articles", {articles: articlesDB});
     });
 });
 
 router.get("/admin/articles/new", (req, res) =>{
     Category.findAll().then(categories =>{
-        res.render("../views/admin/articles/new", {categories: categories});
+        res.render("admin/articles/new", {categories: categories});
     });
 });
 
@@ -60,7 +61,7 @@ router.get("/admin/articles/edit/:id", (req, res) => {
             Category.findAll().then(categoriesDB => {
                 if(categoriesDB != undefined){
 
-                    res.render("../views/admin/articles/edit", {article: articleDB, categories: categoriesDB});
+                    res.render("admin/articles/edit", {article: articleDB, categories: categoriesDB});
          
                 }else{
                     res.redirect("/admin/articles");
@@ -114,7 +115,7 @@ router.get("/article/page/:num", (req, res) =>{
     let page = req.params.num;
     let offset = parseInt(page * 3);
     
-    if(page == 0 || isNaN(page)){
+    if(page <= 0 || isNaN(page)){
         res.redirect("/");
     }
     
@@ -123,13 +124,10 @@ router.get("/article/page/:num", (req, res) =>{
         offset: offset,
         order: [['id','DESC']]
     }).then(articles => {
-        let next;
+        let next = true;
 
-        if(offset + 3 >= articles.count){
+        if(offset + 3 >= articles.count)
             next = false;
-        }else{
-            next = true;
-        };
 
         var result ={
             page: parseInt(page),

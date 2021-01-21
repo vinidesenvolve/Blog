@@ -14,13 +14,13 @@ router.post("/categories/save", (req, res) =>{
             res.redirect("/admin/categories");
         });
     }else{
-        res.render("/admin/categories/new");
+        res.render("admin/categories/new");
     };
 });
 
 router.get("/admin/categories", (req, res) =>{
     Category.findAll().then(categoriesDB => {
-        res.render("../views/admin/categories/categories", 
+        res.render("admin/categories/categories", 
         {categories: categoriesDB})
     });
 });
@@ -45,7 +45,7 @@ router.get("/admin/categories/edit/:id", (req, res) =>{
 
     Category.findByPk(id).then(category =>{
         if(category != undefined){
-            res.render("../views/admin/categories/edit", {category: category});
+            res.render("admin/categories/edit", {category: category});
         }else{
             res.redirect("/admin/categories");
         };
