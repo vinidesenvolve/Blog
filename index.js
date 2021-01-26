@@ -1,7 +1,7 @@
 const express = require("express"); //Carregando modulo express
 const bodyParser = require("body-parser"); //Carregando modulo body parser
 const connection = require("./database/database"); //Carregando objeto conexão
-
+const session = require("express-session");//Carregando bibiotleca de sessões
 const app = express(); //Instanciando express
 
 //Importando controllers 
@@ -14,6 +14,11 @@ const Article = require("./article/Article");
 
 //Definindo a View Engine
 app.set('view engine','ejs');
+
+//Configurando a sessão
+app.use(session({
+    secret: "3456uhft6789okji90pkjhy67ug", cookie: {maxAge: 30000}
+}));
 
 //Configurando Body-parser
 app.use(bodyParser.urlencoded({extended: false}));
