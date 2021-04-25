@@ -1,0 +1,54 @@
+<%- include ('../../partials/header.ejs')%>
+<body>
+    <%- include ('../../partials/admnavbar.ejs')%>    
+    <div class="container">    
+        <div class="card">
+            <div class="card-header" style="text-align: center;">
+                <h2>Artigos</h2>
+            </div>
+            <div class="card-body">
+                <a href="/admin/articles/new" class="btn btn-success">Escrever novo artigo</a>
+                <br>
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Título</th>
+                            <th>Slug</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% articles.forEach(article => { %>
+                            <tr>
+                                <th><%= article.id %></th>
+                                <th><%= article.title %></th>
+                                <th><%= article.slug %></th>
+                                <th><%= article.category.title %></th>
+                                <th>
+                                    <a href="/admin/articles/edit/<%= article.id%>" class="btn btn-warning">Editar</a>
+                                    <form method="POST" action="/articles/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
+                                        <input  type="hidden" name="id" value="<%= article.id %>">
+                                        <button class="btn btn-danger">Excluir</button>
+                                    </form>
+                                </th>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include ('../../partials/footer.ejs')%>
+<script>
+    function confirmDelete(event, form){
+        event.preventDefault();
+        let decision = confirm("Deseja excluir esse artigo?")
+
+        if(decision)
+            form.submit();
+    };
+</script>

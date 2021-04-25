@@ -1,0 +1,48 @@
+<%- include ('../../partials/header.ejs')%>
+<body>
+    <%- include ('../../partials/admnavbar.ejs')%>
+    <div class="container">
+        <div class="card">
+            <div class="card-header" style="text-align: center;">
+                <h2>Escrever Artigo </h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/articles/save">
+                    <input type="text" name="title" placeholder="Título do artigo" autofocus>
+                    <hr>
+                    <textarea id="article" type="text" name="body" placeholder="Corpo do artigo" class="form-control"></textarea>
+                    <br>
+                    <select name="categories" class="form-control">
+                        <!--<option selected>Selecione uma categoria</option>-->
+                        <% categories.forEach((cat) => { %>
+                            <option value="<%= cat.id %>"><%= cat.title %></option>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <button class="btn btn-success">Postar</button>
+                    <button class="btn btn-danger" type="reset">Limpar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include ('../../partials/footer.ejs')%>
+<script>
+    function confirmClear(event, form){
+        event.preventDefault();
+        let decision = confirm("Deseja cancelar?");
+                
+        if(decision)
+            form.submit();
+    };
+</script>
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+        tinymce.init({
+            language: "pt_BR",
+            selector: "#article",
+            plugins: [
+                'list advlist autolink link image print previe hr searchreplace wordcount preview fullscreen media insertdatetime save table paste emoticons'
+            ]
+        });
+</script>
