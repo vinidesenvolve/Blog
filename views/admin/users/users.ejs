@@ -1,0 +1,51 @@
+<%- include ('../../partials/header.ejs')%>
+<body>
+    <%- include ('../../partials/admnavbar.ejs')%>    
+    <div class="container">    
+        <div class="card">
+            <div class="card-header" style="text-align: center;">
+                <h2>Usuários</h2>
+            </div>
+            <div class="card-body">
+                <a href="/admin/users/new" class="btn btn-success"> Inserir Novo Usuário </a>
+                <br>
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <th><%= user.id %></th>
+                                <th><%= user.name %></th>
+                                <th><%= user.email %></th>
+                                <th>
+                                    <form method="POST" action="/users/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
+                                        <input  type="hidden" name="id" value="<%= user.id %>">
+                                        <button class="btn btn-danger">Excluir</button>
+                                    </form> 
+                                </th>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include ('../../partials/footer.ejs')%>
+<script>
+    function confirmDelete(event, form){
+        event.preventDefault();
+        let decision = confirm("Realmente deseja EXCLUIR esse usuário?")
+
+        if(decision)
+            form.submit();
+    };
+</script>

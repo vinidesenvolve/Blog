@@ -24,3 +24,7 @@ tinyMCE -> Biblioteca para edição de textos
 
 bcrypt.js -> Biblioteca para senhas
 
+cookies -> são dados que ficam salvo no navegador
+
+sessões -> são dados que ficam armazenados no servidor durante a sessão, podendo salvar id nos cookies 
+

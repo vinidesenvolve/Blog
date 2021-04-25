@@ -1,7 +1,6 @@
 const express = require("express"); //Carregando modulo express
-const bodyParser = require("body-parser"); //Carregando modulo body parser
 const connection = require("./database/database"); //Carregando objeto conexão
-
+const session = require("express-session");//Carregando bibiotleca de sessões
 const app = express(); //Instanciando express
 
 //Importando controllers 
@@ -15,9 +14,18 @@ const Article = require("./article/Article");
 //Definindo a View Engine
 app.set('view engine','ejs');
 
-//Configurando Body-parser
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+//Configurando a sessão
+app.use(session({
+    secret: "3456uhft6789okji90pkjhy67ug", 
+    cookie: {maxAge: 30000},
+    resave: true,
+    saveUninitialized: true
+}));
+
+//Indentificar Request Object como string ou array
+app.use(express.urlencoded({extended: true}));
+//Indentificar Request Object como JSON Object
+app.use(express.json());
 
 //Configurando aquivos estaticos
 app.use(express.static('public'));
@@ -52,6 +60,6 @@ app.use("/", articleController);
 app.use("/", userController);
 
 //Abrindo o servidor
-app.listen(8080, () =>{
-    console.log("NO AR FDP PA PA PA!");
+const server = app.listen(8080, () =>{
+    console.log(`Server is on at ${server.address().port}`);
 });

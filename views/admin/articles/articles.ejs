@@ -4,13 +4,11 @@
     <div class="container">    
         <div class="card">
             <div class="card-header" style="text-align: center;">
-                <h2>Categorias</h2>
+                <h2>Artigos</h2>
             </div>
             <div class="card-body">
-                <form method="POST" action="/categories/save">                         
-                    <input type="text" name="title" placeholder="Inserir nova categoria">
-                    <button class="btn btn-success">Ok</button>
-                </form>
+                <a href="/admin/articles/new" class="btn btn-success">Escrever novo artigo</a>
+                <br>
                 <br>
                 <table class="table">
                     <thead>
@@ -18,24 +16,26 @@
                             <th>Id</th>
                             <th>Título</th>
                             <th>Slug</th>
+                            <th>Categoria</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <%categories.forEach(cat => {%>
+                        <% articles.forEach(article => { %>
                             <tr>
-                                <th><%= cat.id%></th>
-                                <th><%= cat.title%></th>
-                                <th><%= cat.slug%></th>
+                                <th><%= article.id %></th>
+                                <th><%= article.title %></th>
+                                <th><%= article.slug %></th>
+                                <th><%= article.category.title %></th>
                                 <th>
-                                    <a href="/admin/categories/edit/<%= cat.id%>" class="btn btn-warning">Editar</a>
-                                    <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
-                                        <input  type="hidden" name="id" value="<%= cat.id %>">
+                                    <a href="/admin/articles/edit/<%= article.id%>" class="btn btn-warning">Editar</a>
+                                    <form method="POST" action="/articles/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
+                                        <input  type="hidden" name="id" value="<%= article.id %>">
                                         <button class="btn btn-danger">Excluir</button>
                                     </form>
                                 </th>
                             </tr>
-                        <%})%>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
@@ -46,7 +46,7 @@
 <script>
     function confirmDelete(event, form){
         event.preventDefault();
-        let decision = confirm("Deseja excluir essa categoria?")
+        let decision = confirm("Deseja excluir esse artigo?")
 
         if(decision)
             form.submit();
